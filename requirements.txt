@@ -5,3 +5,4 @@ flask-talisman
 python-dotenv
 email-validator
 bleach
+wtforms
