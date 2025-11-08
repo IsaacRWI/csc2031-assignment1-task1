@@ -1,8 +1,21 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.forms import RegistrationForm
 from bleach import clean
+import logging
+from datetime import datetime
 
 safe_tags = {"b", "i", "u", "em", "strong", "a", "p", "ul", "ol", "li"}
+
+logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def log_event(level, message, username=None):
+    ip = request.remote_addr
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_message = f"{timestamp} Client IP:{ip}, User:{username or "N/A"} | {message}"
+    if level == "info":
+        logging.info(log_message)
+    elif level == "warning":
+        logging.warning(log_message)
 
 main = Blueprint('main', __name__)
 
