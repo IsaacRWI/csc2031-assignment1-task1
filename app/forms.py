@@ -13,10 +13,10 @@ class RegistrationForm(FlaskForm):
     bio = TextAreaField("Enter something about yourself")
     submit = SubmitField("Submit")
 
-    def validate_username(self, username):
-        if not re.match(r"^[A-Za-z_]+$", username.data):
-            raise ValidationError("Username must only contain letters and underscores")
-        if username.data.lower() in reserved_usernames:
-            raise ValidationError("Username is reserved")
+def validate_username(form, username):
+    if not re.match(r"^[A-Za-z_]+$", username.data):
+        raise ValidationError("Username must only contain letters and underscores")
+    if username.data.lower() in reserved_usernames:
+        raise ValidationError("Username is reserved")
 
 
