@@ -12,7 +12,7 @@ def home():
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm
+    form = RegistrationForm()
     sanitized_content = None
     if form.validate_on_submit() and form.bio.data:
         bio_content = form.bio.data
