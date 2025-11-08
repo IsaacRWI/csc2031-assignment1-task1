@@ -19,4 +19,9 @@ def validate_username(form, username):
     if username.data.lower() in reserved_usernames:
         raise ValidationError("Username is reserved")
 
+def validate_email(form, email):
+    lower = email.data.lower
+    if not re.match(r'.+@.+\.(edu|ac\.uk|org)$', lower):
+        raise ValidationError('Only .edu, .ac.uk, or .org emails are allowed.')
+
 
