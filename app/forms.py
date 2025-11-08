@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationE
 import re
 
 reserved_usernames = {"admin", "root", "superuser"}
+common_password = {"password123", "admin", "123456", "qwerty", "letmein", "welcome", "iloveyou", "abc123", "monkey", "football"}
 
 class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=3, max=30)])
@@ -24,4 +25,26 @@ def validate_email(form, email):
     if not re.match(r'.+@.+\.(edu|ac\.uk|org)$', lower):
         raise ValidationError('Only .edu, .ac.uk, or .org emails are allowed.')
 
+def validate_password(form, password):
+    password = password.data
+    username = form.username.data.lower()
+    email = form.email.data.lower()
 
+    if len(password) < 12:
+        raise ValidationError("Password must be at least 12 characters long")
+    if not re.search(r'[A-Z]', password):
+        raise ValidationError("Password must contain a capital letter")
+    if not re.search(r'[a-z]', password):
+        raise ValidationError("Password must contain a lowercase letter")
+    if not re.search(r'\d', password):
+        raise ValidationError("Password must contain a number")
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
+        raise ValidationError("Password must contain a special character")
+    if re.search(r'\s', password):
+        raise ValidationError("Password cannot contain whitespace")
+    if username in password.lower():
+        raise ValidationError("Password cannot contain your username")
+    if email in password.lower():
+        raise ValidationError("Password cannot contain your email")
+    if password.lower() in common_password:
+        raise ValidationError("Password cannot be in list of common passwords")
