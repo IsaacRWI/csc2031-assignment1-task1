@@ -30,6 +30,13 @@ class RegistrationForm(FlaskForm):
         username = self.username.data.lower()
         email = self.email.data.lower()
 
+
+        if password.lower() in common_password:
+            raise ValidationError("Password cannot be in list of common passwords")
+        if username in password.lower():
+            raise ValidationError("Password cannot contain your username")
+        if email in password.lower():
+            raise ValidationError("Password cannot contain your email")
         if len(password) < 12:
             raise ValidationError("Password must be at least 12 characters long")
         if not re.search(r'[A-Z]', password):
@@ -42,9 +49,3 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("Password must contain a special character")
         if re.search(r'\s', password):
             raise ValidationError("Password cannot contain whitespace")
-        if username in password.lower():
-            raise ValidationError("Password cannot contain your username")
-        if email in password.lower():
-            raise ValidationError("Password cannot contain your email")
-        if password.lower() in common_password:
-            raise ValidationError("Password cannot be in list of common passwords")
