@@ -15,8 +15,8 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Submit")
 
     def validate_username(self, username):
-        if not re.match(r"^[A-Za-z_]+$", username.data):
-            raise ValidationError("Username must only contain letters and underscores")
+        if not re.match(r"^[A-Za-z_]{3,30}$", username.data):
+            raise ValidationError("Username must only contain letters and underscores and be between 3 and 30 characters long")
         if username.data.lower() in reserved_usernames:
             raise ValidationError("Username is reserved")
 
