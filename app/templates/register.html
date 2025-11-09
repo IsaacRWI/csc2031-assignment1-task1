@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <p>Status Messages:</p>
+        {% for i in messages %}
+            <p>{{i}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <form method="POST" novalidate>
     {{ form.hidden_tag() }}
     <p>{{ form.username.label }} {{ form.username() }}</p>
@@ -11,6 +21,7 @@
 </form>
 
 {% if bio %}
+    <p>Your Bio:</p>
     <p>{{ bio | safe }}</p>
 {% endif %}
 

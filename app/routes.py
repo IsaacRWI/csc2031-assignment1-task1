@@ -33,16 +33,18 @@ def register():
 
         if bio_content == sanitized_content:
             log_event("info", "Successful Registration", form.username.data)
-            flash("Registratiom Success", "success")
+            flash("Registration Success", "info")
         else:
             log_event("warning", "bio contained restricted tags", form.username.data)
             sanitized_content = ""
+            flash("Registration Failed, Bio content contained restricted tags", "warning")
 
     elif request.method == "POST":
         for field, errors in form.errors.items():
             for i in errors:
                 log_event("warning", f"Validation Failed: {field} - {i}", form.username.data)
                 print(f"validation error {field} - {i}")
+                flash(f"Registration Failed, Validation Error {field} - {i}", "warning")
 
     # client_ip = request.remote_addr or "Unknown IP"
 
