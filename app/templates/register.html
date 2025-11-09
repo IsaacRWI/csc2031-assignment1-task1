@@ -9,5 +9,9 @@
     <p>{{ form.bio.label }} <br> {{ form.bio() }}</p>
     <p>{{ form.submit() }}</p>
 </form>
-<p>Hello {{ name | safe }}</p>
+
+{% if bio %}
+    <p>{{ bio | safe }}</p>
+{% endif %}
+
 {% endblock %}

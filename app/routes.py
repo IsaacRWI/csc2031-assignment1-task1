@@ -33,9 +33,10 @@ def register():
 
         if bio_content == sanitized_content:
             log_event("info", "Successful Registration", form.username.data)
-            flash("Registratiom Success")
+            flash("Registratiom Success", "success")
         else:
             log_event("warning", "bio contained restricted tags", form.username.data)
+            sanitized_content = ""
 
     elif request.method == "POST":
         for field, errors in form.errors.items():
