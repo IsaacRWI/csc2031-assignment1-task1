@@ -3,9 +3,10 @@ from wtforms import StringField, PasswordField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 import re
 
-reserved_usernames = {"admin", "root", "superuser"}
+reserved_usernames = {"admin", "root", "superuser"}  # for username validation later
 common_password = {"password123", "admin", "123456", "qwerty", "letmein", "welcome", "iloveyou", "abc123", "monkey", "football"}
 
+# registration form class
 class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=3, max=30)])
     email = StringField("Email", validators=[DataRequired(), Email()])
@@ -15,22 +16,25 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Submit")
 
     def validate_username(self, username):
-        if not re.match(r"^[A-Za-z_]{3,30}$", username.data):
+        """validates username input"""
+        if not re.match(r"^[A-Za-z_]{3,30}$", username.data):  # if username does not only contain A-Z or a-z or _ and is between 3 and 30 characters long
             raise ValidationError("Username must only contain letters and underscores and be between 3 and 30 characters long")
-        if username.data.lower() in reserved_usernames:
+        if username.data.lower() in reserved_usernames:  # if username is the same as one of the reserved usernames
             raise ValidationError("Username is reserved")
 
     def validate_email(self, email):
+        """validates email input"""
         lower = email.data.lower()
-        if not re.match(r'.+@.+\.(edu|ac\.uk|org)$', lower):
+        if not re.match(r'.+@.+\.(edu|ac\.uk|org)$', lower):  # if the email address does not end with .edu .ac.uk or .org
             raise ValidationError('Only .edu, .ac.uk, or .org emails are allowed.')
 
     def validate_password(self, password):
+        """validates password input"""
         password = password.data
         username = self.username.data.lower()
         email = self.email.data.lower()
 
-
+        # password validators
         if password.lower() in common_password:
             raise ValidationError("Password cannot be in list of common passwords")
         if username in password.lower():
