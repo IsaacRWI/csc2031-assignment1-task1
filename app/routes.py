@@ -26,7 +26,7 @@ def home():
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    """the form shown on the webpage"""
+    """the block on the webpage"""
     form = RegistrationForm()  # form = new instance of RegistrationForm
     sanitized_content = None  # for sanitized bio content later on
     if form.validate_on_submit():  # if form validates on submit
