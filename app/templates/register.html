@@ -3,7 +3,7 @@
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
-        <p>Status Messages:</p>
+        <p>Status Messages:</p>  <!-- if there are status messages shown them at the top of the page -->
         {% for i in messages %}
             <p>{{i}}</p>
         {% endfor %}
@@ -22,7 +22,7 @@
 
 {% if bio %}
     <p>Your Bio:</p>
-    <p>{{ bio | safe }}</p>
+    <p>{{ bio | safe }}</p>  <!-- telling jinja bio is safe and just display it -->
 {% endif %}
 
 {% endblock %}
