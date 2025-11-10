@@ -27,17 +27,21 @@ def home():
 def register():
     form = RegistrationForm()
     sanitized_content = None
-    if form.validate_on_submit() and form.bio.data:
-        bio_content = form.bio.data
-        sanitized_content = clean(bio_content, tags=safe_tags, attributes={'a': ['href', 'title']}, strip=True)
+    if form.validate_on_submit():
+        if form.bio.data:
+            bio_content = form.bio.data
+            sanitized_content = clean(bio_content, tags=safe_tags, attributes={'a': ['href', 'title']}, strip=True)
 
-        if bio_content == sanitized_content:
-            log_event("info", "Successful Registration", form.username.data)
-            flash("Registration Success", "info")
+            if bio_content == sanitized_content:
+                log_event("info", "Successful Registration", form.username.data)
+                flash(f"Registration Success, Username {form.username.data} registered", "info")
+            else:
+                log_event("warning", "bio contained restricted tags", form.username.data)
+                sanitized_content = ""
+                flash("Registration Failed, Bio content contained restricted tags", "warning")
         else:
-            log_event("warning", "bio contained restricted tags", form.username.data)
-            sanitized_content = ""
-            flash("Registration Failed, Bio content contained restricted tags", "warning")
+            log_event("info", "Successful Registration, no bio", form.username.data)
+            flash(f"Registration Success, Username {form.username.data} registered with no bio", "info")
 
     elif request.method == "POST":
         for field, errors in form.errors.items():
