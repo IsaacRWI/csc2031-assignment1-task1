@@ -4,11 +4,11 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationE
 import re
 
 reserved_usernames = {"admin", "root", "superuser"}  # for username validation later
-common_password = {"password123", "admin", "123456", "qwerty", "letmein", "welcome", "iloveyou", "abc123", "monkey", "football"}
+common_password = {"password123", "admin", "123456", "qwerty", "letmein", "welcome", "iloveyou", "abc123", "monkey", "football"}  # set of common passwords for password validation later
 
 # registration form class
 class RegistrationForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired(), Length(min=3, max=30)])
+    username = StringField("Username", validators=[DataRequired(), Length(min=3, max=30)])  # fields in the form and their validators
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=12)])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password", message="Must match original password")])

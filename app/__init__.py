@@ -2,7 +2,7 @@ from flask import Flask
 from config import Config
 from flask_wtf import CSRFProtect
 
-csrf = CSRFProtect()
+csrf = CSRFProtect()  # initialize csrf
 
 def create_app():
     app = Flask(__name__)
